@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upin - Mine and Earn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            fadeIn: 'fadeIn 1s ease-in-out forwards',
+            slideIn: 'slideIn 0.8s ease-out forwards'
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: 0 },
+              '100%': { opacity: 1 }
+            },
+            slideIn: {
+              '0%': { transform: 'translateY(20px)', opacity: 0 },
+              '100%': { transform: 'translateY(0)', opacity: 1 }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    .drawer {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    .drawer.visible {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-inter">
+  <!-- Drawer -->
+  <div id="drawer" class="fixed top-0 left-0 w-64 h-full bg-gradient-to-b from-indigo-600 to-blue-500 text-white drawer z-50 p-6 shadow-lg">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold">Upin Menu</h2>
+      <button onclick="toggleDrawer()" class="text-white text-xl">&times;</button>
+    </div>
+    <nav class="space-y-4">
+      <a href="#features" onclick="closeDrawer()" class="block w-full text-left bg-white text-indigo-600 font-semibold px-4 py-2 rounded-full hover:bg-gray-100 transition">Features</a>
+      <a href="#wallet" onclick="closeDrawer()" class="block w-full text-left bg-white text-indigo-600 font-semibold px-4 py-2 rounded-full hover:bg-gray-100 transition">Wallet</a>
+      <a href="#about" onclick="closeDrawer()" class="block w-full text-left bg-white text-indigo-600 font-semibold px-4 py-2 rounded-full hover:bg-gray-100 transition">About</a>
+      <a href="#download" onclick="closeDrawer()" class="block w-full text-left bg-white text-indigo-600 font-semibold px-4 py-2 rounded-full hover:bg-gray-100 transition">Download</a>
+      <a href="#whitepaper" onclick="closeDrawer()" class="block w-full text-left bg-white text-indigo-600 font-semibold px-4 py-2 rounded-full hover:bg-gray-100 transition">Whitepaper</a>
+    </nav>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white p-8 text-center relative">
+    <button onclick="toggleDrawer()" class="absolute left-4 top-4 text-white text-2xl">&#9776;</button>
+    <h1 class="text-4xl font-bold animate-fadeIn">Upin</h1>
+    <p class="mt-2 text-lg animate-fadeIn">Earn by mining, completing surveys, spinning, and referring friends.</p>
+    <a href="#download" class="inline-block mt-4 px-6 py-2 bg-white text-blue-600 rounded-full font-semibold shadow-md hover:bg-gray-100 animate-fadeIn">Download App</a>
+  </header>
+
+  <!-- Features -->
+  <section id="features" class="py-16 px-6 max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold text-center mb-10 animate-slideIn">How to Earn Upin</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transform hover:-translate-y-1 animate-slideIn delay-[100ms]">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvOnnrtgck_dXVntha43-ptz1KUa56SkfTz5H-uf3swzLoOUOsAtnhSbsT&s=10" class="mx-auto w-16 h-16" alt="Mining">
+        <h3 class="mt-4 font-semibold">Daily Mining</h3>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transform hover:-translate-y-1 animate-slideIn delay-[200ms]">
+        <img src="https://cdn-icons-png.flaticon.com/512/6728/6728433.png" class="mx-auto w-16 h-16" alt="Survey">
+        <h3 class="mt-4 font-semibold">Complete Surveys</h3>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transform hover:-translate-y-1 animate-slideIn delay-[300ms]">
+        <img src="https://cdn-icons-png.freepik.com/512/9092/9092435.png" class="mx-auto w-16 h-16" alt="Spin">
+        <h3 class="mt-4 font-semibold">Spin & Scratch</h3>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transform hover:-translate-y-1 animate-slideIn delay-[400ms]">
+        <img src="https://cdn-icons-png.flaticon.com/512/10810/10810041.png" class="mx-auto w-16 h-16" alt="Referral">
+        <h3 class="mt-4 font-semibold">Referral Program</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wallet -->
+  <section id="wallet" class="bg-white py-16 px-6 max-w-4xl mx-auto rounded-xl shadow-md animate-fadeIn">
+    <h2 class="text-3xl font-bold text-center mb-6">Your Wallet</h2>
+    <p class="text-center text-lg">Track your earnings, withdraw Upin, and view your transaction history easily.</p>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="bg-gray-100 py-16 px-6 max-w-5xl mx-auto rounded-xl shadow-sm animate-fadeIn">
+    <h2 class="text-3xl font-bold text-center mb-6">About the App</h2>
+    <p class="text-lg text-center max-w-3xl mx-auto">Upin is a revolutionary mobile application that empowers users to earn digital rewards seamlessly. Designed with an intuitive and engaging UI/UX, Upin offers multiple avenues to earn, including daily mining, completing surveys, spinning a luck wheel, scratching cards, and inviting friends through the referral program.</p>
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-white p-6 rounded-lg shadow animate-slideIn delay-[100ms]">
+        <h3 class="text-xl font-semibold mb-2">User-Friendly Interface</h3>
+        <p class="text-gray-700">Clean, modern, and easy-to-navigate interface ensures a smooth experience for all users.</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow animate-slideIn delay-[200ms]">
+        <h3 class="text-xl font-semibold mb-2">Secure Wallet</h3>
+        <p class="text-gray-700">Securely store and manage your Upin earnings with our built-in wallet.</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow animate-slideIn delay-[300ms]">
+        <h3 class="text-xl font-semibold mb-2">Multiple Earnings</h3>
+        <p class="text-gray-700">Diversified ways to earn rewards ensures engagement and value for every user.</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow animate-slideIn delay-[400ms]">
+        <h3 class="text-xl font-semibold mb-2">Community Support</h3>
+        <p class="text-gray-700">Join a thriving community of users, share feedback, and grow together.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- App Screenshots -->
+  <section id="app-images" class="py-16 px-6 max-w-5xl mx-auto animate-fadeIn">
+    <h2 class="text-3xl font-bold text-center mb-10">App Screenshots</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/e9/d0/95/e9d095e3-8fec-5490-3456-0fa804e594ed/9c4d71fa-0352-4557-9a90-27a293fb7268_2-1.jpg/300x0w.jpg" alt="App Screenshot 1" class="rounded-xl shadow-md">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsd2VhHABXUfS6siUfkTfn6uMQtIr-cVF21awHqSIh_KsdS3n1aJ9GZud7&s=10" alt="App Screenshot 2" class="rounded-xl shadow-md">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFg6xqYg5mE8hqNgL-WQGyXSfNXs4qaODars5MbVRLWkwQKdG65bwaK-Xc&s=10" alt="App Screenshot 3" class="rounded-xl shadow-md">
+    </div>
+  </section>
+
+  <!-- Whitepaper -->
+  <section id="whitepaper" class="bg-white py-16 px-6 max-w-5xl mx-auto rounded-xl shadow animate-fadeIn">
+    <h2 class="text-3xl font-bold text-center mb-10">Whitepaper</h2>
+    <div class="mb-8">
+      <h3 class="text-2xl font-semibold mb-4">Token Allocation</h3>
+      <table class="w-full text-left border-collapse">
+        <thead><tr class="bg-gray-100"><th class="border p-2">Category</th><th class="border p-2">Allocation</th></tr></thead>
+        <tbody>
+          <tr><td class="border p-2">Mining Rewards</td><td class="border p-2">80%</td></tr>
+          <tr><td class="border p-2">Team & Development</td><td class="border p-2">10%</td></tr>
+          <tr><td class="border p-2">Marketing & Airdrops</td><td class="border p-2">5%</td></tr>
+          <tr><td class="border p-2">Liquidity & Exchange</td><td class="border p-2">3%</td></tr>
+          <tr><td class="border p-2">Reserve Fund</td><td class="border p-2">2%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="mb-8">
+      <h3 class="text-2xl font-semibold mb-4">Roadmap</h3>
+      <table class="w-full text-left border-collapse">
+        <thead><tr class="bg-gray-100"><th class="border p-2">Phase</th><th class="border p-2">Timeline</th><th class="border p-2">Goal</th></tr></thead>
+        <tbody>
+          <tr><td class="border p-2">1</td><td class="border p-2">Q2 2025</td><td class="border p-2">uPin Marketing</td></tr>
+          <tr><td class="border p-2">2</td><td class="border p-2">Q3 2025</td><td class="border p-2">Start KYC</td></tr>
+          <tr><td class="border p-2">3</td><td class="border p-2">Q4 2025</td><td class="border p-2">Staking uPin</td></tr>
+          <tr><td class="border p-2">4</td><td class="border p-2">Q2 2026</td><td class="border p-2">Listing</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3 class="text-2xl font-semibold mb-4">Token Overview</h3>
+      <table class="w-full text-left border-collapse">
+        <thead><tr class="bg-gray-100"><th class="border p-2">Attribute</th><th class="border p-2">Value</th></tr></thead>
+        <tbody>
+          <tr><td class="border p-2">Token Name</td><td class="border p-2">uPin Coin</td></tr>
+          <tr><td class="border p-2">Symbol</td><td class="border p-2">$uPin</td></tr>
+          <tr><td class="border p-2">Total Supply</td><td class="border p-2">500,000,000</td></tr>
+          <tr><td class="border p-2">Mining Rate</td><td class="border p-2">5 $uPin / 24 hours</td></tr>
+          <tr><td class="border p-2">Type</td><td class="border p-2">Off-chain Token</td></tr>
+          <tr><td class="border p-2">Listing Date</td><td class="border p-2">Q2 2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Download CTA -->
+  <section id="download" class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-16 px-6 text-center rounded-xl shadow-xl mx-6 my-16 animate-slideIn">
+    <h2 class="text-3xl font-bold">Start Earning Today</h2>
+    <p class="mt-2 text-lg">Download the Upin app and join thousands of users mining daily rewards.</p>
+    <a href="#" onclick="forceDownload()" class="inline-block mt-6 px-6 py-3 bg-white text-cyan-600 font-semibold rounded-full shadow hover:bg-gray-100">Download App</a>
+
+<script>
+  function forceDownload() {
+    const link = document.createElement('a');
+    link.href = 'https://raw.githubusercontent.com/upinmine/upin/main/QuickShortcutMaker_2.5.0_APKPure.apk';
+    link.download = 'upin-app.apk';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+</script>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-gray-600 text-sm">
+    &copy; 2025 Upin. All rights reserved.
+  </footer>
+
+  <script>
+    function toggleDrawer() {
+      const drawer = document.getElementById('drawer');
+      drawer.classList.toggle('visible');
+    }
+    function closeDrawer() {
+      const drawer = document.getElementById('drawer');
+      drawer.classList.remove('visible');
+    }
+  </script>
+</body>
+  </html>
