@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Download Starting</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes pulseScale {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .pulse {
+      animation: pulseScale 1s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center min-h-screen">
+
+  <div class="bg-white/90 backdrop-blur-md shadow-2xl rounded-3xl p-10 max-w-md w-full text-center mx-4">
+    <h1 class="text-3xl font-bold text-gray-800 mb-3">Preparing Your Download</h1>
+    <p class="text-gray-600 mb-6">Your download will begin in:</p>
+    
+    <div id="countdown" class="text-6xl font-extrabold text-indigo-600 mb-6 pulse">10</div>
+
+    <p id="message" class="text-green-700 font-medium text-lg hidden">Download started...</p>
+
+    <p class="text-sm text-gray-500 mt-4">If it doesn't start, <a id="manualLink" href="#" class="text-blue-600 underline">click here</a>.</p>
+  </div>
+
+  <script>
+    let seconds = 10;
+    const countdownEl = document.getElementById("countdown");
+    const messageEl = document.getElementById("message");
+    const manualLink = document.getElementById("manualLink");
+
+    const fileURL = "https://raw.githubusercontent.com/upinmine/upin/main/Screenshot_20250518-223423.jpg"; // Change to your APK or file
+    const fileName = "Screenshot.jpg"; // Customize file name
+    manualLink.href = fileURL;
+
+    const interval = setInterval(() => {
+      seconds--;
+      countdownEl.textContent = seconds;
+
+      if (seconds <= 0) {
+        clearInterval(interval);
+        countdownEl.classList.add("hidden");
+        messageEl.classList.remove("hidden");
+
+        const link = document.createElement("a");
+        link.href = fileURL;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>
