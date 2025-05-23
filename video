@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Video Player</title>
+  <style>
+    body {
+      margin: 0;
+      height: 130vh;
+      background: #f1fcf6; /* updated background color */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+
+    .video-box {
+      background-color: #f9f9f9;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      max-width: 720px;
+      width: 85%;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 12px;
+      background: #000;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1e3a8a;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="video-box">
+    <h2>How to create account ?</h2>
+    <video controls poster="https://via.placeholder.com/720x400.png?text=Video+Thumbnail">
+      <source src="https://raw.githubusercontent.com/upinmine/upin/4490d8f5335723dcdaa169c2f1062ef2e100b8b2/Example.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</body>
+</html>
