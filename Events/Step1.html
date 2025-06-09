@@ -3,168 +3,95 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Join Event</title>
+  <title>New Event</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-br from-indigo-100 to-purple-200 min-h-screen flex items-center justify-center p-4">
 
   <div class="bg-white p-6 rounded-2xl shadow-2xl w-full max-w-md">
-    <h1 class="text-2xl font-bold text-center text-purple-700 mb-6">Join Event</h1>
+    <h1 class="text-2xl font-bold text-center text-purple-700 mb-6">New Event</h1>
+    <div id="questionsContainer" class="space-y-6"></div>
 
-    <form id="eventForm" class="space-y-4">
-
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-1">Select Country</label>
-        <select id="countrySelect" class="w-full p-2 border border-gray-300 rounded-lg"></select>
-      </div>
-
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-1">Select Wallet</label>
-        <select id="walletSelect" class="w-full p-2 border border-gray-300 rounded-lg"></select>
-      </div>
-
-      <div>
-        <label id="nameLabel" class="block text-sm font-semibold text-gray-700 mb-1">Wallet Holder Name</label>
-        <input type="text" id="name" placeholder="Enter wallet holder name" class="w-full p-2 border border-gray-300 rounded-lg">
-      </div>
-
-      <div>
-        <label id="accountLabel" class="block text-sm font-semibold text-gray-700 mb-1">Wallet Account Number</label>
-        <input type="text" id="accountNumber" placeholder="Enter wallet account number" class="w-full p-2 border border-gray-300 rounded-lg">
-      </div>
-
-      <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-xl">
-        Submit
-      </button>
-    </form>
-  </div>
-
-  <!-- Confirmation Modal -->
-  <div id="popup" class="fixed inset-0 bg-black bg-opacity-40 hidden flex items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-xl w-full max-w-sm">
-      <h2 class="text-xl font-bold text-purple-700 mb-4 text-center">Confirm Your Details</h2>
-      <div class="space-y-2 text-sm text-gray-700">
-        <p><strong>Country:</strong> <span id="popupCountry"></span></p>
-        <p><strong>Wallet:</strong> <span id="popupWallet"></span></p>
-        <p><strong>Name:</strong> <span id="popupName"></span></p>
-        <p><strong>Account:</strong> <span id="popupAccount"></span></p>
-      </div>
-      <div class="mt-6 flex justify-between">
-        <button onclick="closePopup()" class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded-lg">Cancel</button>
-        <button onclick="sendToAndroid()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">Join</button>
-      </div>
-    </div>
+    <button onclick="checkAnswers()" class="w-full mt-6 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-xl">
+      Join
+    </button>
   </div>
 
   <script>
-    const countries = {
-      "Pakistan": ["JazzCash", "Easypaisa", "SadaPay"],
-      "India": ["Paytm", "PhonePe", "Google Pay"],
-      "Bangladesh": ["bKash", "Nagad", "Rocket"],
-      "USA": ["PayPal", "CashApp", "Venmo"],
-      "Japan": ["PayPay", "Rakuten Pay", "Line Pay"]
-    };
-
-    const hints = {
-      "JazzCash": ["Account Holder Name", "Mobile Number (e.g. 03001234567)"],
-      "Easypaisa": ["Account Holder Name", "Mobile Number (e.g. 03001234567)"],
-      "SadaPay": ["Full Name", "SadaPay Account Number"],
-      "Paytm": ["Paytm Name", "Paytm Mobile Number"],
-      "PhonePe": ["Name", "Phone Number"],
-      "Google Pay": ["GPay Name", "Phone Number"],
-      "bKash": ["Account Name", "bKash Number"],
-      "Nagad": ["Nagad Name", "Nagad Number"],
-      "Rocket": ["Rocket Name", "Rocket Number"],
-      "PayPal": ["Name", "Email Address"],
-      "CashApp": ["Name", "$Cashtag"],
-      "Venmo": ["Name", "@Username"],
-      "PayPay": ["PayPay Name", "Phone Number"],
-      "Rakuten Pay": ["Rakuten Name", "ID or Email"],
-      "Line Pay": ["Line Name", "Line ID"]
-    };
-
-    const countrySelect = document.getElementById("countrySelect");
-    const walletSelect = document.getElementById("walletSelect");
-    const nameInput = document.getElementById("name");
-    const accountInput = document.getElementById("accountNumber");
-    const nameLabel = document.getElementById("nameLabel");
-    const accountLabel = document.getElementById("accountLabel");
-
-    function populateCountries() {
-      for (let country in countries) {
-        const option = document.createElement("option");
-        option.value = country;
-        option.textContent = country;
-        countrySelect.appendChild(option);
+    const questions = [
+      {
+        question: "What is 2 + 2?",
+        correctAnswer: "4",
+        options: ["3", "4", "5", "6"]
+      },
+      {
+        question: "What color is the sky on a clear day?",
+        correctAnswer: "blue",
+        options: ["red", "green", "blue", "yellow"]
+      },
+      {
+        question: "Select 'yes' to confirm you're human",
+        correctAnswer: "yes",
+        options: ["no", "maybe", "robot", "yes"]
       }
-      updateWallets();
-    }
+    ];
 
-    function updateWallets() {
-      const selectedCountry = countrySelect.value;
-      const walletList = countries[selectedCountry] || [];
+    const questionsContainer = document.getElementById("questionsContainer");
+    const userAnswers = [];
 
-      walletSelect.innerHTML = "";
-      walletList.forEach(wallet => {
-        const option = document.createElement("option");
-        option.value = wallet;
-        option.textContent = wallet;
-        walletSelect.appendChild(option);
-      });
+    questions.forEach((q, index) => {
+      const div = document.createElement("div");
+      div.classList.add("space-y-2");
 
-      updateHints();
-    }
+      let optionsHtml = q.options.map(opt => `
+        <div 
+          class="answer-box p-4 rounded-xl border border-gray-300 text-center text-sm font-medium cursor-pointer transition duration-200 hover:bg-purple-100" 
+          onclick="selectOption(${index}, '${opt.toLowerCase()}', this)">
+          ${opt}
+        </div>
+      `).join("");
 
-    function updateHints() {
-      const wallet = walletSelect.value;
-      const walletHints = hints[wallet];
-      if (walletHints) {
-        nameLabel.textContent = walletHints[0];
-        accountLabel.textContent = walletHints[1];
-        nameInput.placeholder = "Enter " + walletHints[0];
-        accountInput.placeholder = "Enter " + walletHints[1];
-      }
-    }
+      div.innerHTML = `
+        <label class="block text-sm font-semibold text-gray-700 mb-2">${q.question}</label>
+        <div class="grid grid-cols-2 gap-3" id="options-${index}">
+          ${optionsHtml}
+        </div>
+      `;
 
-    countrySelect.addEventListener("change", updateWallets);
-    walletSelect.addEventListener("change", updateHints);
-
-    populateCountries();
-
-    document.getElementById("eventForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const name = nameInput.value.trim();
-      const account = accountInput.value.trim();
-
-      if (!name || !account) {
-        alert("Please fill in all fields.");
-        return;
-      }
-
-      document.getElementById("popupCountry").textContent = countrySelect.value;
-      document.getElementById("popupWallet").textContent = walletSelect.value;
-      document.getElementById("popupName").textContent = name;
-      document.getElementById("popupAccount").textContent = account;
-      document.getElementById("popup").classList.remove("hidden");
+      questionsContainer.appendChild(div);
     });
 
-    function closePopup() {
-      document.getElementById("popup").classList.add("hidden");
+    function selectOption(qIndex, answer, element) {
+      const options = document.querySelectorAll(`#options-${qIndex} .answer-box`);
+      options.forEach(opt => opt.classList.remove("bg-purple-600", "text-white", "shadow-lg", "scale-105"));
+      element.classList.add("bg-purple-600", "text-white", "shadow-lg", "scale-105");
+      userAnswers[qIndex] = answer;
     }
 
-    function sendToAndroid() {
-      const country = countrySelect.value;
-      const wallet = walletSelect.value;
-      const name = nameInput.value.trim();
-      const account = accountInput.value.trim();
+    function checkAnswers() {
+      let allCorrect = true;
 
-      if (window.Android && window.Android.onFormSubmitted) {
-        window.Android.onFormSubmitted(country, wallet, name, account);
+      questions.forEach((q, i) => {
+        if (userAnswers[i] !== q.correctAnswer.toLowerCase()) {
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect) {
+        // Send to Android with same keys
+        const country = "Quiz";         // replace or map as needed
+        const wallet = "Success";       // replace or map as needed
+        const name = "Correct Answers"; // replace or map as needed
+        const account = "Passed";       // replace or map as needed
+
+        if (window.Android && window.Android.onFormSubmitted) {
+          window.Android.onFormSubmitted(country, wallet, name, account);
+        } else {
+          alert("Android not connected:\n" + [country, wallet, name, account].join("\n"));
+        }
       } else {
-        alert("Sent to Android:\n" + [country, wallet, name, account].join("\n"));
+        alert("❌ Some answers are incorrect. Please try again!");
       }
-
-      closePopup();
     }
   </script>
 </body>
