@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pick 3 Cards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 16px;
+      background: linear-gradient(to bottom right, #009688, #00BCD4);
+      text-align: center;
+      color: white;
+    }
+    h2 {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+    .picked-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin: 10px auto 20px auto;
+      align-items: center;
+      flex-wrap: nowrap;
+      max-width: 250px;
+    }
+    .picked-container img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #ddd;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: scale(1.04);
+    }
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card.selected::after {
+      content: "✓";
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: rgba(0, 150, 136, 0.9);
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      width: 24px;
+      height: 24px;
+      text-align: center;
+      line-height: 24px;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      background-color: rgba(255, 255, 255, 0.6);
+      pointer-events: none;
+    }
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h2>Today Combo</h2>
+<div class="picked-container" id="picked"></div>
+
+<h2>All Cards</h2>
+<div class="grid" id="cardGrid"></div>
+
+<script>
+  const picked = [];
+  const pickedContainer = document.getElementById('picked');
+  const cardGrid = document.getElementById('cardGrid');
+
+  const imageUrls = Array.from({ length: 15 }, (_, i) =>
+    `https://picsum.photos/seed/card${i + 1}/150`
+  );
+
+  function updatePickedCards() {
+    pickedContainer.innerHTML = '';
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+    picked.forEach(i => {
+      const img = document.createElement('img');
+      img.src = imageUrls[i];
+      pickedContainer.appendChild(img);
+      const cardEl = document.querySelector(`.card[data-index="${i}"]`);
+      if (cardEl) cardEl.classList.add('selected');
+    });
+  }
+
+  function createCard(url, index) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.index = index;
+
+    const img = document.createElement('img');
+    img.src = url;
+    card.appendChild(img);
+
+    card.addEventListener('click', function (e) {
+      if (picked.includes(index)) {
+        picked.splice(picked.indexOf(index), 1);
+        updatePickedCards();
+        return;
+      }
+
+      if (picked.length >= 3) {
+        alert("You can only pick 3 cards!");
+        return;
+      }
+
+      const ripple = document.createElement('span');
+      const rect = this.getBoundingClientRect();
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + 'px';
+      ripple.style.left = e.clientX - rect.left - ripple.offsetWidth / 2 + 'px';
+      ripple.style.top = e.clientY - rect.top - ripple.offsetHeight / 2 + 'px';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+
+      picked.push(index);
+      updatePickedCards();
+
+      if (picked.length === 3) {
+        const result = picked.map(i => i + 1).join('');
+        if (typeof Android !== "undefined" && Android.onPickComplete) {
+          Android.onPickComplete(result);
+        }
+      }
+    });
+
+    return card;
+  }
+
+  imageUrls.forEach((url, index) => {
+    const card = createCard(url, index);
+    cardGrid.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
