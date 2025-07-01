@@ -128,39 +128,32 @@
     const choices = ['rock', 'paper', 'scissors'];
     const compChoice = choices[Math.floor(Math.random() * 3)];
 
-    let resultText = '';
     if (userChoice === compChoice) {
-      resultText = `🤝 Both chose ${userChoice} — It's a draw!`;
+      document.getElementById('result').textContent = `🤝 Both chose ${userChoice} — It's a draw!`;
     } else if (
       (userChoice === 'rock' && compChoice === 'scissors') ||
       (userChoice === 'paper' && compChoice === 'rock') ||
       (userChoice === 'scissors' && compChoice === 'paper')
     ) {
       userScore++;
-      resultText = `✅ You win this round! ${userChoice} beats ${compChoice}`;
+      document.getElementById('result').textContent = `✅ You win this round! ${userChoice} beats ${compChoice}`;
     } else {
       compScore++;
-      resultText = `❌ ${enemyName} wins this round! ${compChoice} beats ${userChoice}`;
+      document.getElementById('result').textContent = `❌ ${enemyName} wins this round! ${compChoice} beats ${userChoice}`;
     }
 
     document.getElementById('userScore').textContent = userScore;
     document.getElementById('compScore').textContent = compScore;
-    document.getElementById('result').textContent = resultText;
 
     if (userScore === 10 || compScore === 10) {
       const msg = userScore === 10
-        ? `🎉 You win Game!.`
+        ? `🎉 You win the game.`
         : `💻 ${enemyName} wins the game!`;
       document.getElementById('winnerMsg').textContent = msg;
 
       if (typeof Android !== "undefined" && Android.onPickComplete) {
         const resultCode = userScore === 10 ? "11" : "12";
         Android.onPickComplete(resultCode);
-      }
-    } else {
-      // Send round result only if game not over
-      if (typeof Android !== "undefined" && Android.onPickComplete) {
-        Android.onPickComplete(resultText);
       }
     }
   }
