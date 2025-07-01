@@ -147,13 +147,19 @@
     document.getElementById('compScore').textContent = compScore;
     document.getElementById('result').textContent = resultText;
 
+    // 🔄 Send result back to Android app
+    if (typeof Android !== "undefined" && Android.onPickComplete) {
+      Android.onPickComplete(resultText);
+    }
+
     if (userScore === 10 || compScore === 10) {
       const msg = userScore === 10
         ? `🎉 You win the game.`
         : `💻 ${enemyName} wins the game!`;
       document.getElementById('winnerMsg').textContent = msg;
-      if (typeof Android !== "undefined" && Android.onGameWin) {
-        Android.onGameWin(msg);
+
+      if (typeof Android !== "undefined" && Android.onPickComplete) {
+        Android.onPickComplete(msg);
       }
     }
   }
